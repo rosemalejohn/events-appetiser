@@ -1,7 +1,6 @@
 <template>
   <full-calendar
     ref="calendar"
-    @click="onDateClick"
     :events="events"
     :plugins="calendarPlugins"
   />
@@ -23,19 +22,10 @@ export default {
       ]
     }
   },
-  mounted () {
-    const calendarApi = this.$refs.calendar.getApi()
-    console.log(calendarApi)
-  },
   computed: {
     ...mapGetters({
       events: 'events'
     })
-  },
-  methods: {
-    onDateClick (day) {
-      console.log(day)
-    }
   }
 }
 </script>

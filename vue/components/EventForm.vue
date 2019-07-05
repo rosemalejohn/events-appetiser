@@ -11,6 +11,17 @@
       Add new event
     </b-button>
 
+    <b-button
+      @click="clearEvents"
+      class="add-event"
+      type="is-info"
+      outlined
+      rounded
+      icon-left="delete"
+    >
+      Clear events
+    </b-button>
+
     <form @submit.prevent="submit" ref="form">
       <b-field
         label="Event title"
@@ -83,7 +94,7 @@
         </div>
       </b-field>
       <b-button
-        type="submit"
+        native-type="submit"
         rounded
         class="button is-info"
       >
@@ -96,6 +107,9 @@
 <script>
   import moment from 'moment'
   import { mapActions } from 'vuex'
+  import _each from 'lodash/each'
+  import _uniq from 'lodash/uniq'
+  import _concat from 'lodash/concat'
 
   export default {
     data () {
@@ -113,7 +127,8 @@
       ...mapActions({
         createEvent: 'createEvent',
         syncEvent: 'syncEvent',
-        getEventDates: 'getEventDates'
+        getEventDates: 'getEventDates',
+        deleteAllEvents: 'deleteAllEvents'
       }),
       resetForm () {
         this.$validator.reset()
@@ -146,15 +161,15 @@
             const start = moment(this.form.date_from, 'YYYY-MM-DD')
             const end = moment(this.form.date_to, 'YYYY-MM-DD')
 
-            this.form.days.forEach((day) => {
-              dates = dates.concat(this.getDayDates(start, end, day))
+            _each(this.form.days, (day) => {
+              dates = _concat(dates, this.getDayDates(start, end, day))
             })
 
             const formData = {
               ...this.form,
               date_from: start.format('YYYY-MM-DD'),
               date_to: end.format('YYYY-MM-DD'),
-              dates
+              dates: _uniq(dates)
             }
 
             if (this.form.id) {
@@ -207,6 +222,10 @@
               position: 'is-top'
             })
           })
+      },
+      clearEvents () {
+        this.deleteAllEvents()
+          .then(this.getEventDates)
       }
     }
   }

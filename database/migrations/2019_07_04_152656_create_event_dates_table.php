@@ -18,7 +18,11 @@ class CreateEventDatesTable extends Migration
             $table->unsignedBigInteger('event_id');
             $table->date('date');
 
-            $table->foreign('event_id')->references('id')->on('events');
+            $table->foreign('event_id')
+                ->references('id')
+                ->on('events')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

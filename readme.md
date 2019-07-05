@@ -42,12 +42,9 @@ $ yarn production
 ## Packages Used
 
 - **[Vue](https://vuejs.org/)**
-- **[Spatie Laravel Fractal](https://github.com/spatie/laravel-fractal)**
-- **[Spatie Laravel Queuable Actions](https://github.com/spatie/laravel-queueable-action)**
 - **[Spatie Laravel Query Builder](https://github.com/spatie/laravel-query-builder)**
 - **[Moment JS](https://momentjs.com/)**
 - **[Axios](https://github.com/axios/axios)**
 - **[Buefy](https://buefy.org)**
-- **[Kalendar](https://kalendar.altinselimi.com/)**
-- **[Vue API Query](https://github.com/robsontenorio/vue-api-query)**
 - **[Vee Validate](https://baianat.github.io)**
+- **[Lodash](https://lodash.com)**

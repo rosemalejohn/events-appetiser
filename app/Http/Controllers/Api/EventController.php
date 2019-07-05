@@ -9,6 +9,7 @@ use App\Actions\CreateEventAction;
 use App\Actions\UpdateEventAction;
 use App\Http\Resources\Event as EventResource;
 use App\Models\Event;
+use DB;
 
 class EventController extends Controller
 {
@@ -25,5 +26,12 @@ class EventController extends Controller
         $event = (new UpdateEventAction($event))->execute($event, $request);
 
         return new EventResource($event);
+    }
+
+    public function delete()
+    {
+        DB::transaction(function() {
+            Event::query()->delete();
+        });
     }
 }

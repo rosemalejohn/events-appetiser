@@ -8,6 +8,10 @@ export const syncEvent = async ({ commit }, event) => {
   return axios.put(`/api/events/${event.id}`, event)
 }
 
+export const deleteAllEvents = () => {
+  return axios.delete('/api/events')
+}
+
 export const getEventDates = ({ commit }, filters) => {
   return axios.get('/api/event-dates', { 
     params: {

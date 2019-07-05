@@ -15,5 +15,6 @@ use Illuminate\Http\Request;
 
 Route::post('/events', 'EventController@store');
 Route::put('/events/{event}', 'EventController@update');
+Route::delete('/events', 'EventController@delete');
 
 Route::get('/event-dates', 'EventDateController@index');
