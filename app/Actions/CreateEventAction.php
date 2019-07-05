@@ -17,5 +17,7 @@ class CreateEventAction
         }, $data->dates);
 
         $event->eventDates()->createMany($dates);
+
+        return $event;
     }
 }

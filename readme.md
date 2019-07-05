@@ -50,3 +50,4 @@ $ yarn production
 - **[Buefy](https://buefy.org)**
 - **[Kalendar](https://kalendar.altinselimi.com/)**
 - **[Vue API Query](https://github.com/robsontenorio/vue-api-query)**
+- **[Vee Validate](https://baianat.github.io)**
