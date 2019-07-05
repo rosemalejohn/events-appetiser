@@ -93,7 +93,9 @@
           </b-checkbox>
         </div>
       </b-field>
+
       <b-button
+        :loading="isSubmitting"
         native-type="submit"
         rounded
         class="button is-info"
@@ -114,8 +116,10 @@
   export default {
     data () {
       return {
+        isSubmitting: false,
         week: moment.weekdaysShort(),
         form: {
+          id: null,
           title: '',
           date_from: null,
           date_to: null,
@@ -133,6 +137,7 @@
       resetForm () {
         this.$validator.reset()
         this.form = {
+          id: null,
           title: '',
           date_from: null,
           date_to: null,
@@ -143,12 +148,10 @@
         let dates = []
         let temp = start.clone().day(day)
 
-        if (temp.isAfter(start, 'd')) {
-          dates.push(temp.format('YYYY-MM-DD'))
-        }
-
-        while(temp.isBefore(end)) {
-          dates.push(temp.format('YYYY-MM-DD'))
+        while(temp.isSameOrBefore(end)) {
+          if (temp.isSameOrAfter(start, 'd')) {
+            dates.push(temp.format('YYYY-MM-DD'))
+          }
           temp.add(7, 'days')
         }
 
@@ -157,6 +160,7 @@
       submit () {
         this.$validator.validateAll().then((valid) => {
           if (valid) {
+            this.isSubmitting = true
             let dates = []
             const start = moment(this.form.date_from, 'YYYY-MM-DD')
             const end = moment(this.form.date_to, 'YYYY-MM-DD')
@@ -170,6 +174,17 @@
               date_from: start.format('YYYY-MM-DD'),
               date_to: end.format('YYYY-MM-DD'),
               dates: _uniq(dates)
+            }
+
+            if (!dates.length) {
+              this.isSubmitting = false
+              this.$snackbar.open({
+                duration: 4000,
+                message: 'No dates are within the days selected.',
+                type: 'is-danger',
+                position: 'is-top'
+              })
+              return
             }
 
             if (this.form.id) {
@@ -202,12 +217,14 @@
               position: 'is-top'
             })
           })
+          .then(() => {
+            this.isSubmitting = false
+          })
       },
       updateEvent (event) {
         this.syncEvent(event)
           .then(this.getEventDates)
           .then(() => {
-            this.$emit('close')
             this.$snackbar.open({
               duration: 4000,
               message: 'Event succesfully updated.',
@@ -221,9 +238,12 @@
               type: 'is-danger',
               position: 'is-top'
             })
+          }).then(() => {
+            this.isSubmitting = false
           })
       },
       clearEvents () {
+        this.resetForm()
         this.deleteAllEvents()
           .then(this.getEventDates)
       }

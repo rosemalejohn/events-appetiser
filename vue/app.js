@@ -5,6 +5,8 @@ import store from './store'
 // Load application plugins
 import './plugins'
 
+Vue.config.productionTip = false
+
 new Vue({
   el: '#app',
   store,
