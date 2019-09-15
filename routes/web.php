@@ -12,3 +12,5 @@
 */
 
 Route::view('/', 'app');
+
+Route::webhooks('/webhooks');
